@@ -2,6 +2,8 @@ package Objects;
 
 import java.sql.Time;
 import java.sql.Date;
+import java.sql.Timestamp;
+
 
 public class Flights {
 	
@@ -17,6 +19,41 @@ public class Flights {
 	private int seatsOpen;
 	private int seatsTaken;
 	private boolean checkIfSeatFull;
+	private Timestamp time;
+	
+	public Flights() {
+		
+	}
+	
+	public Flights(String airline, int flightNumber, String originCity, String destinationCity) {
+		this.airline = airline;
+		this.flightNumber = flightNumber;
+		this.originCity = originCity;
+		this.destinationCity = destinationCity;
+		
+	}
+	
+	public Flights(String airline, String originCity, String destinationCity, int flightNumber, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime, int seatsOpen, Timestamp time) {
+		
+		this.airline = airline;
+		this.originCity = originCity;
+		this.destinationCity = destinationCity;
+		this.flightNumber = flightNumber;
+		this.departureDate = departureDate;
+		this.depatureTime = departureTime;
+		this.arrivalDate = arrivalDate;
+		this.arrivalTime = arrivalTime;
+		this.seatsOpen = seatsOpen;
+		this.time = time;
+		
+		
+	}
+	
+	public Flights(String airline, String originCity, String destinationCity, int flightNumber, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime, Timestamp time) {
+		
+		
+	}
+	
 	
 	public boolean checkIfSeatFull() {
 		return checkIfSeatFull;
