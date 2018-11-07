@@ -51,6 +51,15 @@ public class Flights {
 	
 	public Flights(String airline, String originCity, String destinationCity, int flightNumber, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime, Timestamp time) {
 		
+		this.airline = airline;
+		this.originCity = originCity;
+		this.destinationCity = destinationCity;
+		this.flightNumber = flightNumber;
+		this.departureDate = departureDate;
+		this.depatureTime = departureTime;
+		this.arrivalDate =arrivalDate;
+		this.arrivalTime = arrivalTime;
+		this.time = time;
 		
 	}
 	
