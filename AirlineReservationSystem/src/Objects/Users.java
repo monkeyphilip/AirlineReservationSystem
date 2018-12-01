@@ -10,7 +10,6 @@ public class Users {
 	private String zipCode;
 	private String state;
 	private String email;
-	
 	private String ssn;
 	private String securityQues;
 	private String securityAns;
