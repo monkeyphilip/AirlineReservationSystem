@@ -7,6 +7,20 @@ public class City {
 	private String cityID;
 	
 	
+	public City() {
+		cityName ="Atlanta";
+		location = "Georgia";
+		cityID ="ATL";
+		
+	}
+	
+	public City(String a, String b, String c) {
+		cityName =a;
+		location =b;
+		cityID = c;
+		
+	}
+	
 	
 	
 	public String getCityName() {
@@ -26,6 +40,12 @@ public class City {
 	}
 	public void setCityID(String cityID) {
 		this.cityID = cityID;
+	}
+	
+	@Override
+	public String toString() {
+		return "City Name: " + cityName + "\nLocation: " + location + "\nCity ID: " + "";
+		
 	}
 	
 	
