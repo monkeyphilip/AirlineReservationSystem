@@ -155,9 +155,10 @@ public class Login extends Application implements EventHandler<ActionEvent>{
 		
 		exit.setMinWidth(150);
 		register.setMinWidth(150);
+		passwordRecover.setMinWidth(150);
 		login.setMinWidth(150);
 		
-		anchor.getChildren().addAll(userTxt, passwordTxt, login, register, usernameLabel, exit,
+		anchor.getChildren().addAll(userTxt, passwordTxt, login, register, passwordRecover, usernameLabel, exit,
 				loginLabel, passwordLabel);
 		scene = new Scene(anchor, 825, 500);
 		;
