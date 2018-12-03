@@ -123,6 +123,7 @@ public class Login extends Application implements EventHandler<ActionEvent>{
 				
 			}
 		});
+		
 		Button passwordRecover = new Button("Forgot Password");
 		passwordRecover.setLayoutX(370.0);
 		passwordRecover.setLayoutY(290.0);

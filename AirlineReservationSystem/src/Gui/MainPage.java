@@ -73,12 +73,52 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 			try {
 				search.start(primaryStage);
 				
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} catch (Exception ex) {
+								
 			}
 
 		});
+		
+		table.setLayoutX(10.0);
+		table.setLayoutY(57.0);
+		table.setPrefHeight(329.0);
+		table.setPrefWidth(1031.11);
+
+		myFlights.setLayoutX(420.0);
+		myFlights.setLayoutY(10.0);
+		myFlights.setText("My Flights");
+		myFlights.setFont(new Font(25.0));
+
+		refresh.setLayoutX(1100.0);
+		refresh.setLayoutY(179.0);
+		refresh.setMnemonicParsing(false);
+		refresh.setPrefHeight(25);
+		refresh.setPrefWidth(90);
+		refresh.setOnAction(e -> { 
+			try {
+				
+			}
+			catch (Exception ex) {
+				
+			}
+		});
+		
+		logOut.setLayoutX(1100.0);
+		logOut.setLayoutY(249.0);
+		logOut.setMnemonicParsing(false);
+		logOut.setPrefHeight(25);
+		logOut.setPrefWidth(90);
+		logOut.setText("Log Out");
+		logOut.setOnAction(e -> {
+			Login loginPage = new Login();
+			try {
+				loginPage.start(primaryStage);
+				
+			} catch (Exception ex) {
+				
+			}
+		});
+		
 		
 		
 		
