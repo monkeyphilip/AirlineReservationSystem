@@ -91,11 +91,14 @@ public class Login extends Application implements EventHandler<ActionEvent>{
 		login.setLayoutY(222.0);
 		login.setMnemonicParsing(false);
 		login.setPrefHeight(25.0);
-		login.setPrefWidth(149.0);
+		login.setPrefWidth(150.0);
 		login.setText("Log In");
 		
 		login.setOnAction(e -> {
+			MainPage MainPage = new MainPage();
 			try {
+				
+				MainPage.start(primaryStage);
 				
 			}
 			catch(Exception ex) {
@@ -108,15 +111,35 @@ public class Login extends Application implements EventHandler<ActionEvent>{
 		register.setLayoutY(255.0);
 		register.setMnemonicParsing(false);
 		register.setPrefHeight(25.0);
-		register.setPrefWidth(149.0);
+		register.setPrefWidth(150.0);
 		register.setOnAction(e -> {
+			Register registerPage = new Register();
 			try {
+				registerPage.start(primaryStage);
 				
 			}
 			catch(Exception ex) {
 				
 			}
 		});
+		Button passwordRecover = new Button("Forgot Password");
+		passwordRecover.setLayoutX(370.0);
+		passwordRecover.setLayoutY(290.0);
+		passwordRecover.setMnemonicParsing(false);
+		passwordRecover.setPrefHeight(25.0);
+		passwordRecover.setPrefWidth(150.0);
+		passwordRecover.setOnAction(e -> {
+			PasswordRecovery recoverPassword = new PasswordRecovery();
+			try {
+
+				recoverPassword.start(primaryStage);
+				
+			}
+
+			catch (Exception ex) {
+			}
+		});
+		
 		
 		Button exit = new Button("Exit");
 		exit.setLayoutX(370.0);
