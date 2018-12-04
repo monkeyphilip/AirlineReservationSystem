@@ -187,7 +187,7 @@ public class Register extends Application implements EventHandler<ActionEvent>{
 						+ tSecutiryA.getText() + "', '0')";
 				
 				try {
-					Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/airlinedatabaser", "root", "confident");
+					Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/airlinedatabase", "root", "confident");
 					
 					Statement myStat = myConn.createStatement();
 					myStat.executeUpdate(sql);

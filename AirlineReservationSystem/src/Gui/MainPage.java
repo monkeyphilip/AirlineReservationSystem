@@ -12,6 +12,7 @@ import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.*;
@@ -32,10 +33,13 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 	public void setUsernameId(String usernameId) {
 		this.usernameID = usernameId;
 	}
+	
+	RegisterFlights flightRegister =new RegisterFlights();
 
+	UpdateFlights updateFlights = new UpdateFlights();
 	
 
-// Main Method	
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -169,21 +173,20 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
 						"confident");
 
-				String sqlFlightDelete = "Delete FROM FlightUser where FlightUser.Flights_num = '"
-						+ deleteFlightTxt.getText().trim() + "' and FlightUser.Users_ssn= '" + getUsernameID() + "'";
-				String sqlFlightCheck = "SELECT `Flights_num`, `Users_ssn` FROM `FlightUser` where Users_ssn = '"
-						+ getUsernameID() + "' and Flights_num= '" + deleteFlightTxt.getText().trim() + "'";
-				// create a statement
+				String sqlFlightDelete = "Delete FROM Flights where num= '"
+						+ deleteFlightTxt.getText().trim() + "' and From Users get ssn= '" + getUsernameID() + "'";
+				String sqlFlightCheck = "SELECT `num`, `ssn` FROM `Users` where ssn = '"
+						+ getUsernameID() + "' and FROM 'Flights' where num= '" + deleteFlightTxt.getText().trim() + "'";
+			
 				Statement myStat = myConn.createStatement();
-				// execute a query
+				
 				ResultSet myRs;
 				myRs = myStat.executeQuery(sqlFlightCheck);
 
-				// Creates a variable for future checking
 				int count = 0;
 				while (myRs.next()) {
 					count = count + 1;
-					setUsernameId(myRs.getString("User_id"));
+					setUsernameId(myRs.getString("FROM Users get ssn"));
 				}
 
 				if (count > 0) {
@@ -202,6 +205,7 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 			}
 
 			catch (SQLException ex) {
+				System.out.print(ex);
 			
 			}
 
@@ -251,11 +255,14 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		adminTool.setLayoutX(1100);
 		adminTool.setLayoutY(290);
 		adminTool.setOnAction(e ->{
-			RegisterFlights flightRegister =new RegisterFlights();
+			
 			try {
 				flightRegister.start(primaryStage);
+				//flightRegister.launch(null);
 				
 			} catch (Exception ex) {
+				
+				System.out.print(ex);
 				
 			}
 		});
@@ -264,7 +271,7 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		adminTool1.setLayoutX(1100);
 		adminTool1.setLayoutY(330);
 		adminTool1.setOnAction(e -> {
-			UpdateFlights updateFlights = new UpdateFlights();
+			
 			try {
 				updateFlights.start(primaryStage);
 				
@@ -280,6 +287,7 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		
 		anchor.getChildren().addAll(deleteFlightLbl, userID, searchFlights, table, myFlights, deleteFlights,
 				deleteFlightTxt, logOut, refresh);
+		
 		
 		Scene scene = new Scene(anchor, 1300, 500);
 

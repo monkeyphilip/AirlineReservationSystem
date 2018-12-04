@@ -214,6 +214,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 				
 			}
 		});
+		
 		logOut.setLayoutX(1080);
 		logOut.setLayoutY(60);
 		logOut.setMinWidth(100);
@@ -235,6 +236,75 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		TextField addFlight = new TextField();
 		addFlight.setLayoutX(1200);
 		addFlight.setLayoutY(300);
+		
+		TableColumn<Flights, Integer> column1 = new TableColumn<Flights, Integer>("Flight Number");
+		column1.setCellValueFactory(new PropertyValueFactory<>("flightNumber"));
+		column1.setMinWidth(128.88);
+
+		TableColumn<Flights, String> column2 = new TableColumn<Flights, String>("Airline");
+		column2.setCellValueFactory(new PropertyValueFactory<>("Airline"));
+		column2.setMinWidth(128.88);
+
+		TableColumn<Flights, String> column3 = new TableColumn<Flights, String>("Origin City");
+		column3.setCellValueFactory(new PropertyValueFactory<>("originCity"));
+		column3.setMinWidth(128.88);
+
+		TableColumn<Flights, String> column4 = new TableColumn<Flights, String>("Destination City");
+		column4.setCellValueFactory(new PropertyValueFactory<>("destinationCity"));
+		column4.setMinWidth(128.88);
+
+
+		TableColumn<Flights, Time> column6 = new TableColumn<Flights, Time>("Departure Time");
+		column6.setCellValueFactory(new PropertyValueFactory<>("departureTime"));
+		column6.setMinWidth(128.88);
+
+		TableColumn<Flights, Date> column7 = new TableColumn<Flights, Date>("Arrival Time");
+		column7.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
+		column7.setMinWidth(128.88);
+		
+		TableColumn<Flights, Date> column5 = new TableColumn<Flights, Date>("Departure Date");
+		column5.setCellValueFactory(new PropertyValueFactory<>("departureDate"));
+		column5.setMinWidth(128.88);
+
+		TableColumn<Flights, Time> column8 = new TableColumn<Flights, Time>("Arrival Date");
+		column8.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
+		column8.setMinWidth(128.88);
+
+		TableColumn<Flights, Integer> column9 = new TableColumn<Flights, Integer>("Seats Open");
+		column9.setCellValueFactory(new PropertyValueFactory<>("seatsOpen"));
+		column9.setMinWidth(128.88);
+		
+		try {
+			String dbSearch = getChoice(dropdown).trim();
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+					"confident");
+			String sqlUserCheck = "SELECT * FROM Flights";
+			
+			PreparedStatement myStat = myConn.prepareStatement(sqlUserCheck);
+		
+			ResultSet myRs;
+			myRs = myStat.executeQuery();
+			table.getItems().clear();
+
+			
+
+			while (myRs.next()) {
+
+				data.add(new Flights(myRs.getInt("num"), myRs.getString("airline"), myRs.getString("origin_city"),
+						myRs.getString("destination_city"), myRs.getDate("departure_date"),
+						myRs.getTime("departure_time"), myRs.getDate("arrival_date"), myRs.getTime("arrival_time")));
+				table.setItems(data);
+			}
+			
+		}
+		catch(Exception ex) {
+			System.out.print(ex);
+			
+		}
+		
+		table.setTableMenuButtonVisible(false);
+		
 		
 		try {
 			Connection myConn;
@@ -258,7 +328,9 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 
 			}
 
-		} catch (Exception exc) {
+		} catch (Exception ex) {
+			
+			System.out.print(ex);
 
 		}
 
@@ -266,7 +338,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		try {
 			Connection myConn;
 			myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/airlinedatabaser", "root",
+					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
 					"confident");
 
 			String sqlUserCheck = "SELECT * FROM `Users` where username = '" + Login.getUser() + "'";
@@ -286,6 +358,8 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 			}
 
 		} catch (Exception ex) {
+			
+			System.out.print(ex);
 
 		}
 
@@ -308,7 +382,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 						+ getUsernameId() + "`num` FROM 'Flight= '" + addFlight.getText().trim() + "'";
 
 				String sqlBookingCheck = "select  `num`,`departure_time`, `arrival_time`, `departure_date`, `arrival_date` from\r\n"
-						+ "Flights inner Join `num` FROM 'Flights = `num` FROM 'Flights \r\n"
+						+ "Flights inner Join `num` FROM 'Flights' = `num` FROM 'Flights' \r\n"
 						+ "inner join Users on `username` FROM `Users` = `username` FROM `Users` where username = '"
 						+ Login.getUser() + "'";
 
@@ -319,7 +393,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 				Statement myStat = myConn.createStatement();
 			
 				ResultSet myRs;
-				myRs = myStat.executeQuery(sqlFlightBook);
+				myRs = myStat.executeQuery(sqlFlightCheck);
 
 				
 				int count = 0;
@@ -381,47 +455,13 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 			}
 			catch(Exception ex) {
 				
+				System.out.print(ex);
+				
 			}
 		});
 		
-		TableColumn<Flights, Integer> column1 = new TableColumn<Flights, Integer>("Flight Number");
-		column1.setCellValueFactory(new PropertyValueFactory<>("flightNumber"));
-		column1.setMinWidth(128.88);
-
-		TableColumn<Flights, String> column2 = new TableColumn<Flights, String>("Airline");
-		column2.setCellValueFactory(new PropertyValueFactory<>("Airline"));
-		column2.setMinWidth(128.88);
-
-		TableColumn<Flights, String> column3 = new TableColumn<Flights, String>("Origin City");
-		column3.setCellValueFactory(new PropertyValueFactory<>("originCity"));
-		column3.setMinWidth(128.88);
-
-		TableColumn<Flights, String> column4 = new TableColumn<Flights, String>("Destination City");
-		column4.setCellValueFactory(new PropertyValueFactory<>("destinationCity"));
-		column4.setMinWidth(128.88);
-
-
-		TableColumn<Flights, Time> column6 = new TableColumn<Flights, Time>("Departure Time");
-		column6.setCellValueFactory(new PropertyValueFactory<>("departureTime"));
-		column6.setMinWidth(128.88);
-
-		TableColumn<Flights, Date> column7 = new TableColumn<Flights, Date>("Arrival Time");
-		column7.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
-		column7.setMinWidth(128.88);
 		
-		TableColumn<Flights, Date> column5 = new TableColumn<Flights, Date>("Departure Date");
-		column5.setCellValueFactory(new PropertyValueFactory<>("departureDate"));
-		column5.setMinWidth(128.88);
-
-		TableColumn<Flights, Time> column8 = new TableColumn<Flights, Time>("Arrival Date");
-		column8.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
-		column8.setMinWidth(128.88);
-
-		TableColumn<Flights, Integer> column9 = new TableColumn<Flights, Integer>("Seats Open");
-		column9.setCellValueFactory(new PropertyValueFactory<>("seatsOpen"));
-		column9.setMinWidth(128.88);
 		
-		table.setTableMenuButtonVisible(false);
 
 		Button searchButton = new Button("Search");
 		searchButton.setLayoutX(715);
@@ -501,6 +541,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		return dbSearch;
 
 	}
+	
 
 	public int conflictCheck(Timestamp d, Timestamp a, Timestamp d1) {
 

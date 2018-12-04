@@ -2,6 +2,10 @@ package Gui;
 
 import java.sql.*;
 
+
+
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.application.*;
 import javafx.event.*;
 import javafx.geometry.*;
@@ -11,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.*;
+
 
 public class Login extends Application implements EventHandler<ActionEvent>{
 	private static String user = "";
@@ -211,11 +216,16 @@ public class Login extends Application implements EventHandler<ActionEvent>{
 		
 		anchor.getChildren().addAll(userTxt, passwordTxt, login, register, passwordRecover, usernameLabel, exit,
 				loginLabel, passwordLabel);
+	   
+		BackgroundImage myBI = new BackgroundImage(new Image( "file:///Users/byunglee/git/AirlineReservationSystem/AirlineReservationSystem/src/Gui/pic1.jpg"),
+				BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+				BackgroundSize.DEFAULT);
 		scene = new Scene(anchor, 825, 500);
 		;
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		primaryStage.centerOnScreen();
+		
 
 
 

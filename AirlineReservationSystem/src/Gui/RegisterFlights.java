@@ -30,6 +30,7 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 	public void start(Stage primaryStage) throws Exception {
 		
 		primaryStage.setTitle("Add Flight");
+		primaryStage.setResizable(false);
 		AnchorPane anchor = new AnchorPane();
 		anchor.setPadding(new Insets(20, 20, 20, 20));
 
@@ -139,7 +140,7 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 						+ flightNumberTxtField.getText() + "'";
 
 				String sqlFlightCreate = "INSERT INTO `Flights`(`num`,`airline`,`origin_city`,`destination_city`,`departure_time`,`arrival_time`"
-						+ "`departure_date`,`arrival_date`,`seats_open`) VALUES('"
+						+ ",`departure_date`,`arrival_date`,`seats_open`) VALUES('"
 						+ flightNumberTxtField.getText() + "', '"+ airlineTxtField.getText() + "', '" 
 						+ originCityTxtField.getText() + "', '" + destinationCityTxtField.getText() + "' , '"
 						+ departureDateTxtField.getText() + "', '" + departureTimeTxtField.getText() + "', '"
@@ -166,6 +167,7 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 				
 			}
 			catch(Exception ex) {
+				System.out.print(ex);
 				
 				AlertBox.display("Error", "Departure cannot be before a arrival");
 				

@@ -94,7 +94,10 @@ public class UpdateFlights extends Application implements EventHandler<ActionEve
 				myStat.executeUpdate(update);
 				
 			}
-			catch (Exception ex) {}
+			catch (Exception ex) {
+				System.out.print(ex);
+			}
+			
 			}
 			
 			if (getOption(dropdown2).trim().equals("DELETE")) {
@@ -111,6 +114,7 @@ public class UpdateFlights extends Application implements EventHandler<ActionEve
 				}
 
 				catch (SQLException ex) {
+					System.out.print(ex);
 				}
 
 			}
@@ -151,9 +155,31 @@ public class UpdateFlights extends Application implements EventHandler<ActionEve
 		column8.setMinWidth(128.88);
 
 		try {
+			String dbSearch = getChoice(dropdown).trim();
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+					"confident");
+			String sqlUserCheck = "SELECT * FROM Flights";
+			
+			PreparedStatement myStat = myConn.prepareStatement(sqlUserCheck);
+		
+			ResultSet myRs;
+			myRs = myStat.executeQuery();
+			table.getItems().clear();
+
+			
+
+			while (myRs.next()) {
+
+				data.add(new Flights(myRs.getInt("num"), myRs.getString("airline"), myRs.getString("origin_city"),
+						myRs.getString("destination_city"), myRs.getDate("departure_date"),
+						myRs.getTime("departure_time"), myRs.getDate("arrival_date"), myRs.getTime("arrival_time")));
+				table.setItems(data);
+			}
 			
 		}
 		catch(Exception ex) {
+			System.out.print(ex);
 			
 		}
 		

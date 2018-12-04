@@ -88,6 +88,19 @@ public class Flights implements ObservableList {
 		this.departureTime = departureTime;
 		this.arrivalDate =arrivalDate;
 		this.arrivalTime = arrivalTime;
+		this.seatsOpen = seatsOpen;
+		
+	}
+	public Flights( int flightNumber,String airline, String originCity, String destinationCity, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime){
+		super();
+		this.airline = airline;
+		this.originCity = originCity;
+		this.destinationCity = destinationCity;
+		this.flightNumber = flightNumber;
+		this.departureDate = departureDate;
+		this.departureTime = departureTime;
+		this.arrivalDate =arrivalDate;
+		this.arrivalTime = arrivalTime;
 		
 	}
 		
