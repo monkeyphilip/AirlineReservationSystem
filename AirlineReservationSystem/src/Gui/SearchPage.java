@@ -186,8 +186,8 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		final ObservableList<Flights> data = FXCollections.observableArrayList();
 		
 		ChoiceBox<String> dropdown = new ChoiceBox<>();
-		dropdown.getItems().addAll("Destnation", "Origin", "Departure", "Airline");
-		dropdown.setValue("Destnation");
+		dropdown.getItems().addAll("Destination", "Origin", "Departure", "Airline");
+		dropdown.setValue("Destination");
 		dropdown.setLayoutY(60);
 		dropdown.setLayoutX(340);
 		
@@ -253,7 +253,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 			int count = 0;
 			while (myRs.next()) {
 				count = count + 1;
-				setUsernameId(myRs.getString("ssn"));
+				setUsernameId(myRs.getString("username"));
 				System.out.println(getUsernameId());
 
 			}
@@ -280,12 +280,12 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 			int count = 0;
 			while (myRs.next()) {
 				count = count + 1;
-				setUsernameId(myRs.getString("ssn"));
+				setUsernameId(myRs.getString("username"));
 				System.out.println(getUsernameId());
 
 			}
 
-		} catch (Exception exc) {
+		} catch (Exception ex) {
 
 		}
 
@@ -301,25 +301,25 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 				Connection myConn;
 				myConn = DriverManager.getConnection("jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident" );
 
-				String sqlFlightBook = "INSERT INTO 'FlightUser'(`Flights_num`,`Users_ssn`)VALUES("
+				String sqlFlightBook = "INSERT INTO `username` FROM `Users`,'num'FROM 'Flights VALUES("
 						+ addFlight.getText().trim() + ", " + getUsernameId() + ")";
 
-				String sqlFlightCheck = "SELECT `Flights_num`, `Users_ssn` FROM `FlightUser` where Users_ssn = '"
-						+ getUsernameId() + "' and Flights_num= '" + addFlight.getText().trim() + "'";
+				String sqlFlightCheck = "SELECT `num` FROM 'Flights, `username` FROM `Users` where `username` FROM `Users` = '"
+						+ getUsernameId() + "`num` FROM 'Flight= '" + addFlight.getText().trim() + "'";
 
 				String sqlBookingCheck = "select  `num`,`departure_time`, `arrival_time`, `departure_date`, `arrival_date` from\r\n"
-						+ "Flights inner Join FlightUser on Flight_num = flights.num \r\n"
-						+ "inner join Users on FlightUser.Users_ssn = users.ssn where username = '"
+						+ "Flights inner Join `num` FROM 'Flights = `num` FROM 'Flights \r\n"
+						+ "inner join Users on `username` FROM `Users` = `username` FROM `Users` where username = '"
 						+ Login.getUser() + "'";
 
-				String bookingCheckValue = "SELECT `departure_date`, `departure_time` FROM `Flights` where number ='"
+				String bookingCheckValue = "SELECT `departure_date`, `departure_time` FROM `Flights` where num ='"
 						+ addFlight.getText().trim() + "'";
 
 				
 				Statement myStat = myConn.createStatement();
 			
 				ResultSet myRs;
-				myRs = myStat.executeQuery(sqlFlightCheck);
+				myRs = myStat.executeQuery(sqlFlightBook);
 
 				
 				int count = 0;
@@ -445,8 +445,8 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 			while (myRs.next()) {
 
 				data.add(new Flights(myRs.getInt("num"), myRs.getString("airline"), myRs.getString("origin_city"),
-						myRs.getString("destination_city"), myRs.getDate("departure_time"),
-						myRs.getTime("arrivial_time"), myRs.getDate("departure_date"), myRs.getTime("arrival_date"),
+						myRs.getString("destination_city"), myRs.getDate("departure_date"),
+						myRs.getTime("arrival_time"), myRs.getDate("departure_time"), myRs.getTime("arrival_date"),
 						myRs.getInt("seats_open")));
 				table.setItems(data);
 			}
@@ -485,7 +485,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		String dbSearch = "";
 		String choice = dropdown.getValue();
 
-		if (choice.equals("Destnation")) {
+		if (choice.equals("Destination")) {
 			dbSearch = "destination_city";
 		}
 

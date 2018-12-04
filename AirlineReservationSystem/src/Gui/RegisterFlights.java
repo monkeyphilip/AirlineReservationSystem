@@ -35,11 +35,11 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 
 		Text airline = new Text("Airline");
 		airline.setLayoutX(200);
-		airline.setLayoutY(45);
+		airline.setLayoutY(80);
 
 		Text flightNumber = new Text("Flight Number");
 		flightNumber.setLayoutX(200);
-		flightNumber.setLayoutY(80);
+		flightNumber.setLayoutY(45);
 
 		Text originCity = new Text("Origin City");
 		originCity.setLayoutX(200);
@@ -51,19 +51,19 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 
 		Text departureDate = new Text("Departure Date");
 		departureDate.setLayoutX(200);
-		departureDate.setLayoutY(185);
+		departureDate.setLayoutY(255);
 
 		Text departureTime = new Text("Departure Time");
 		departureTime.setLayoutX(200);
-		departureTime.setLayoutY(220);
+		departureTime.setLayoutY(185);
 
 		Text arrivalDate = new Text("Arrival Date");
 		arrivalDate.setLayoutX(200);
-		arrivalDate.setLayoutY(255);
+		arrivalDate.setLayoutY(290);
 
 		Text arrivalTime = new Text("Arrival Time");
 		arrivalTime.setLayoutX(200);
-		arrivalTime.setLayoutY(290);
+		arrivalTime.setLayoutY(220);
 
 		Text capacity = new Text("Available Seats");
 		capacity.setLayoutX(200);
@@ -71,12 +71,12 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 
 		TextField airlineTxtField = new TextField();
 		airlineTxtField.setLayoutX(300);
-		airlineTxtField.setLayoutY(25);
+		airlineTxtField.setLayoutY(60);
 		airlineTxtField.setPromptText("Airline");
 
 		TextField flightNumberTxtField = new TextField();
 		flightNumberTxtField.setLayoutX(300);
-		flightNumberTxtField.setLayoutY(60);
+		flightNumberTxtField.setLayoutY(25);
 		flightNumberTxtField.setPromptText("Flight Number");
 
 		TextField originCityTxtField = new TextField();
@@ -91,28 +91,28 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 
 		TextField departureDateTxtField = new TextField();
 		departureDateTxtField.setLayoutX(300);
-		departureDateTxtField.setLayoutY(165);
+		departureDateTxtField.setLayoutY(235);
 		departureDateTxtField.setPromptText("YYYY-MM-DD");
 
 		TextField departureTimeTxtField = new TextField();
 		departureTimeTxtField.setLayoutX(300);
-		departureTimeTxtField.setLayoutY(200);
+		departureTimeTxtField.setLayoutY(165);
 		departureTimeTxtField.setPromptText("HH:MM:SS");
 
 		TextField arrivalDateTxtField = new TextField();
 		arrivalDateTxtField.setLayoutX(300);
-		arrivalDateTxtField.setLayoutY(235);
+		arrivalDateTxtField.setLayoutY(270);
 		arrivalDateTxtField.setPromptText("YYYY-MM-DD");
 
 		TextField arrivalTimeTxtField = new TextField();
 		arrivalTimeTxtField.setLayoutX(300);
-		arrivalTimeTxtField.setLayoutY(270);
+		arrivalTimeTxtField.setLayoutY(200);
 		arrivalTimeTxtField.setPromptText("HH:MM:SS");
 
-		TextField seatsOpenTxtField = new TextField();
-		seatsOpenTxtField.setLayoutX(300);
-		seatsOpenTxtField.setLayoutY(310);
-		seatsOpenTxtField.setPromptText("Capacity");
+		TextField capacityTxtField = new TextField();
+		capacityTxtField.setLayoutX(300);
+		capacityTxtField.setLayoutY(310);
+		capacityTxtField.setPromptText("Capacity");
 
 		Button returnHome = new Button("Return to main Page");
 		returnHome.setLayoutX(250);
@@ -135,7 +135,7 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 				myConn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
 						"confident");
-				String sqlFightCheck = "select * From `Flights` where number = '"
+				String sqlFightCheck = "select * From `Flights` where num = '"
 						+ flightNumberTxtField.getText() + "'";
 
 				String sqlFlightCreate = "INSERT INTO `Flights`(`num`,`airline`,`origin_city`,`destination_city`,`departure_time`,`arrival_time`"
@@ -144,7 +144,7 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 						+ originCityTxtField.getText() + "', '" + destinationCityTxtField.getText() + "' , '"
 						+ departureDateTxtField.getText() + "', '" + departureTimeTxtField.getText() + "', '"
 						+ arrivalTimeTxtField.getText() + "', '" + departureDateTxtField.getText() + "','" 
-						+ arrivalDateTxtField.getText() + "', '" + seatsOpenTxtField.getText() + "')";
+						+ arrivalDateTxtField.getText() + "', '" + capacityTxtField.getText() + "')";
 
 				Statement myStat = myConn.createStatement();
 				
@@ -175,7 +175,7 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 		anchor.getChildren().addAll(airline, flightNumber, originCity, destinationCity, departureDate, departureTime,
 				arrivalDate, arrivalTime, capacity, airlineTxtField, flightNumberTxtField, originCityTxtField,
 				destinationCityTxtField, departureDateTxtField, departureTimeTxtField, arrivalDateTxtField,
-				arrivalTimeTxtField, seatsOpenTxtField, create, returnHome);
+				arrivalTimeTxtField, capacityTxtField, create, returnHome);
 
 		Scene scene = new Scene(anchor, 650, 550);
 		primaryStage.setScene(scene);
