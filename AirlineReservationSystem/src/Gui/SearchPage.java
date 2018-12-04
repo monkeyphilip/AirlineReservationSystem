@@ -270,13 +270,13 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 					"confident");
 
 			String sqlUserCheck = "SELECT * FROM `Users` where username = '" + Login.getUser() + "'";
-			// create a statement
+		
 			Statement myStat = myConn.createStatement();
-			// execute a query
+			
 			ResultSet myRs;
 			myRs = myStat.executeQuery(sqlUserCheck);
 
-			// Creates a variable for future checking
+			
 			int count = 0;
 			while (myRs.next()) {
 				count = count + 1;
@@ -301,11 +301,11 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 				Connection myConn;
 				myConn = DriverManager.getConnection("jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident" );
 
-				String sqlFlightBook = "INSERT INTO `Flights`.'FlightUser'(`Flights_num`,`Users_ssn`)VALUES("
+				String sqlFlightBook = "INSERT INTO 'FlightUser'(`Flights_num`,`Users_ssn`)VALUES("
 						+ addFlight.getText().trim() + ", " + getUsernameId() + ")";
 
-				String sqlFlightCheck = "SELECT `Flights_num`, `Users_ssn` FROM `FlightUser` where ssn = '"
-						+ getUsernameId() + "' and num= '" + addFlight.getText().trim() + "'";
+				String sqlFlightCheck = "SELECT `Flights_num`, `Users_ssn` FROM `FlightUser` where Users_ssn = '"
+						+ getUsernameId() + "' and Flights_num= '" + addFlight.getText().trim() + "'";
 
 				String sqlBookingCheck = "select  `num`,`departure_time`, `arrival_time`, `departure_date`, `arrival_date` from\r\n"
 						+ "Flights inner Join FlightUser on Flight_num = flights.num \r\n"

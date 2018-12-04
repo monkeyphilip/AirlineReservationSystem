@@ -138,8 +138,8 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 				String sqlFightCheck = "select * From `Flights` where number = '"
 						+ flightNumberTxtField.getText() + "'";
 
-				String sqlFlightCreate = "INSERT INTO `Flights`(`number`,`airline`,`origin_city`,`destination_city`,`departure_date`,`departure_time`"
-						+ "`arrival_time`,`departure_date`,`arrival_date`,`seats_open`) VALUES('"
+				String sqlFlightCreate = "INSERT INTO `Flights`(`num`,`airline`,`origin_city`,`destination_city`,`departure_time`,`arrival_time`"
+						+ "`departure_date`,`arrival_date`,`seats_open`) VALUES('"
 						+ flightNumberTxtField.getText() + "', '"+ airlineTxtField.getText() + "', '" 
 						+ originCityTxtField.getText() + "', '" + destinationCityTxtField.getText() + "' , '"
 						+ departureDateTxtField.getText() + "', '" + departureTimeTxtField.getText() + "', '"
@@ -147,7 +147,7 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 						+ arrivalDateTxtField.getText() + "', '" + seatsOpenTxtField.getText() + "')";
 
 				Statement myStat = myConn.createStatement();
-				// execute a query
+				
 				;
 				ResultSet myRs;
 				myRs = myStat.executeQuery(sqlFightCheck);
