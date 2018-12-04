@@ -92,8 +92,6 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		refresh.setLayoutX(1100.0);
 		refresh.setLayoutY(179.0);
 		refresh.setMnemonicParsing(false);
-		refresh.setPrefHeight(25);
-		refresh.setPrefWidth(90);
 		refresh.setOnAction(e -> { 
 			try {
 				
@@ -106,8 +104,6 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		logOut.setLayoutX(1100.0);
 		logOut.setLayoutY(249.0);
 		logOut.setMnemonicParsing(false);
-		logOut.setPrefHeight(25);
-		logOut.setPrefWidth(90);
 		logOut.setText("Log Out");
 		logOut.setOnAction(e -> {
 			Login loginPage = new Login();
@@ -119,6 +115,110 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 			}
 		});
 		
+		Label deleteFlightLbl = new Label("Enter Flight Number to Delete:");
+		deleteFlightLbl.setLayoutX(1065);
+		deleteFlightLbl.setLayoutY(89);
+
+		deleteFlightTxt.setLayoutX(1100);
+		deleteFlightTxt.setLayoutY(109);
+		deleteFlightTxt.setPrefHeight(25);
+		deleteFlightTxt.setPrefWidth(90);
+
+		deleteFlights.setLayoutX(1100.0);
+		deleteFlights.setLayoutY(139.0);
+		deleteFlights.setMnemonicParsing(false);
+		deleteFlights.setText("Delete Flight");
+		deleteFlights.setOnAction(e -> {
+			try {
+				
+			}
+			catch(Exception ex) {
+				
+			}
+		
+		});
+		TableColumn<Flights, Integer> column1 = new TableColumn<Flights, Integer>("Flight Number");
+		column1.setCellValueFactory(new PropertyValueFactory<>("flightNumber"));
+		column1.setMinWidth(128.88);
+
+		TableColumn<Flights, String> column2 = new TableColumn<Flights, String>("Airline");
+		column2.setCellValueFactory(new PropertyValueFactory<>("Airline"));
+		column2.setMinWidth(128.88);
+
+		TableColumn<Flights, String> column3 = new TableColumn<Flights, String>("Origin City");
+		column3.setCellValueFactory(new PropertyValueFactory<>("originCity"));
+		column3.setMinWidth(128.88);
+
+		TableColumn<Flights, String> column4 = new TableColumn<Flights, String>("Destination City");
+		column4.setCellValueFactory(new PropertyValueFactory<>("destinationCity"));
+		column4.setMinWidth(128.88);
+
+		TableColumn<Flights, Date> column5 = new TableColumn<Flights, Date>("Departure Date");
+		column5.setCellValueFactory(new PropertyValueFactory<>("departureDate"));
+		column5.setMinWidth(128.88);
+
+		TableColumn<Flights, Time> column6 = new TableColumn<Flights, Time>("Departure Time");
+		column6.setCellValueFactory(new PropertyValueFactory<>("departureTime"));
+		column6.setMinWidth(128.88);
+
+		TableColumn<Flights, Date> column7 = new TableColumn<Flights, Date>("Arrival Date");
+		column7.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
+		column7.setMinWidth(128.88);
+
+		TableColumn<Flights, Time> column8 = new TableColumn<Flights, Time>("Arrival Time");
+		column8.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
+		column8.setMinWidth(128.88);
+
+		table.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7, column8);
+
+		try {
+			
+		}
+		catch(Exception ex) {
+			
+		}
+		
+		Button adminTool = new Button("Admin Add flight");
+		adminTool.setLayoutX(1100);
+		adminTool.setLayoutY(290);
+		adminTool.setOnAction(e ->{
+			RegisterFlights flight =new RegisterFlights();
+			try {
+				flight.start(primaryStage);
+				
+			} catch (Exception e1) {
+				
+			}
+		});
+		
+		Button adminTool1 = new Button("Admin Flight Edit/Delete");
+		adminTool1.setLayoutX(1100);
+		adminTool1.setLayoutY(330);
+		adminTool1.setOnAction(e -> {
+			UpdateFlights update = new UpdateFlights();
+			try {
+				update.start(primaryStage);
+				
+			} catch (Exception e1) {
+			
+			}
+		});
+		
+		if (isAdmin() == true) {
+			anchor.getChildren().add(adminTool);
+			anchor.getChildren().add(adminTool1);
+		}
+		
+		anchor.getChildren().addAll(deleteFlightLbl, userID, searchFlights, table, myFlights, deleteFlights,
+				deleteFlightTxt, logOut, refresh);
+		
+		Scene scene = new Scene(anchor, 1300, 500);
+
+		primaryStage.setScene(scene);
+		primaryStage.show();
+		primaryStage.centerOnScreen();
+
+
 		
 		
 		
