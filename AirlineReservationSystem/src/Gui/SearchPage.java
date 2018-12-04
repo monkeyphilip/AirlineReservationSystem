@@ -434,24 +434,25 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 			Connection myConn = DriverManager.getConnection("jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident" );
 			String sqlUserCheck = "SELECT * FROM Flights WHERE " + dbSearch + " = '" + searchItem + "'";
 			
-			PreparedStatement myStat = myConn.prepareStatement(sqlUserCheck);
+			ResultSet myStat = myConn.prepareStatement(sqlUserCheck).executeQuery();
 			
-			ResultSet myRs;
-			myRs = myStat.executeQuery();
+		
+			
 			table.getItems().clear();
 
 			
 
-			while (myRs.next()) {
+			while (myStat.next()) {
+				
+	
 
-				data.add(new Flights(myRs.getInt("num"), myRs.getString("airline"), myRs.getString("origin_city"),
-						myRs.getString("destination_city"), myRs.getDate("departure_date"),
-						myRs.getTime("arrival_time"), myRs.getDate("departure_time"), myRs.getTime("arrival_date"),
-						myRs.getInt("seats_open")));
+				data.add(new Flights(myStat.getInt("num"), myStat.getString("airline"), myStat.getString("origin_city"),
+						myStat.getString("destination_city"), myStat.getDate("departure_date"),
+						myStat.getTime("arrival_time"), myStat.getDate("departure_time"), myStat.getTime("arrival_date"),
+						myStat.getInt("seats_open")));
 				table.setItems(data);
 			}
 			myStat.close();
-			myRs.close();
 			myConn.close();
 			}
 
@@ -463,6 +464,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		table.setLayoutX(20);
 		table.setMinWidth(1160);
 		table.setMinHeight(580);
+		table.setItems(data);
 		table.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7, column8, column9);
 		anchor.getChildren().addAll(dropdown, userID, searchTxt, searchButton, table, returnMain, logOut, addFlight,
 				addFlightLbl, addFlightButton);
