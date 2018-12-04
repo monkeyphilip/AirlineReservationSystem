@@ -432,7 +432,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 			String dbSearch = getChoice(dropdown).trim();
 			String searchItem = searchTxt.getText().trim();
 			Connection myConn = DriverManager.getConnection("jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident" );
-			String sqlUserCheck = "SELECT * FROM Flights WHERE " + dbSearch + " = '" + searchItem + "'";
+			String sqlUserCheck = "SELECT * FROM airlinedatabase.Flights WHERE " + dbSearch + " = '" + searchItem + "'";
 			
 			ResultSet myStat = myConn.prepareStatement(sqlUserCheck).executeQuery();
 			

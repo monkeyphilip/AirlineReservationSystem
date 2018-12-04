@@ -135,7 +135,7 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 				myConn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
 						"confident");
-				String sqlFightCheck = "select * From `Flights` where num = '"
+				String sqlFightCheck = "select num From Flights where num = '"
 						+ flightNumberTxtField.getText() + "'";
 
 				String sqlFlightCreate = "INSERT INTO `Flights`(`num`,`airline`,`origin_city`,`destination_city`,`departure_time`,`arrival_time`"
