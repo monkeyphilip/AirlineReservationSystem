@@ -237,22 +237,61 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		addFlight.setLayoutY(300);
 		
 		try {
+			Connection myConn;
+			myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+					"confident");
+
+			String sqlUserCheck = "SELECT * FROM `Users` where username = '" + Login.getUser() + "'";
 			
-		}
-		catch (Exception ex) {
+			Statement myStat = myConn.createStatement();
 			
+			ResultSet myRs;
+			myRs = myStat.executeQuery(sqlUserCheck);
+
+			
+			int count = 0;
+			while (myRs.next()) {
+				count = count + 1;
+				setUsernameId(myRs.getString("ssn"));
+				System.out.println(getUsernameId());
+
+			}
+
+		} catch (Exception exc) {
+
 		}
-		
-		Label addFlightLable = new Label("Select Flight Number to Add");
+
+		Label addFlightLbl = new Label("Select Flight Number to Add");
 		try {
-			
+			Connection myConn;
+			myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+					"confident");
+
+			String sqlUserCheck = "SELECT * FROM `Users` where username = '" + Login.getUser() + "'";
+			// create a statement
+			Statement myStat = myConn.createStatement();
+			// execute a query
+			ResultSet myRs;
+			myRs = myStat.executeQuery(sqlUserCheck);
+
+			// Creates a variable for future checking
+			int count = 0;
+			while (myRs.next()) {
+				count = count + 1;
+				setUsernameId(myRs.getString("ssn"));
+				System.out.println(getUsernameId());
+
+			}
+
+		} catch (Exception exc) {
+
 		}
-		catch (Exception ex) {
-			
-		}
+
 		
-		addFlightLable.setLayoutX(1200);
-		addFlightLable.setLayoutY(275);
+		addFlightLbl.setLayoutX(1200);
+		addFlightLbl.setLayoutY(275);
 
 		Button addFlightButton = new Button("Add Flight");
 		addFlightButton.setLayoutX(1240);
@@ -262,15 +301,15 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 				Connection myConn;
 				myConn = DriverManager.getConnection("jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident" );
 
-				String sqlFlightBook = "INSERT INTO `Flights`.'FlightUser'(`num`,`ssn`)VALUES("
+				String sqlFlightBook = "INSERT INTO `Flights`.'FlightUser'(`Flights_num`,`Users_ssn`)VALUES("
 						+ addFlight.getText().trim() + ", " + getUsernameId() + ")";
 
-				String sqlFlightCheck = "SELECT `num`, `ssn` FROM `FlightUser` where ssn = '"
+				String sqlFlightCheck = "SELECT `Flights_num`, `Users_ssn` FROM `FlightUser` where ssn = '"
 						+ getUsernameId() + "' and num= '" + addFlight.getText().trim() + "'";
 
 				String sqlBookingCheck = "select  `num`,`departure_time`, `arrival_time`, `departure_date`, `arrival_date` from\r\n"
-						+ "Flights inner Join FlightUser on num = flights.num \r\n"
-						+ "inner join Users on FlightUser.ssn = users.ssn where username = '"
+						+ "Flights inner Join FlightUser on Flight_num = flights.num \r\n"
+						+ "inner join Users on FlightUser.Users_ssn = users.ssn where username = '"
 						+ Login.getUser() + "'";
 
 				String bookingCheckValue = "SELECT `departure_date`, `departure_time` FROM `Flights` where number ='"
@@ -426,7 +465,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		table.setMinHeight(580);
 		table.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7, column8, column9);
 		anchor.getChildren().addAll(dropdown, userID, searchTxt, searchButton, table, returnMain, logOut, addFlight,
-				addFlightLable, addFlightButton);
+				addFlightLbl, addFlightButton);
 		
 		Scene scene = new Scene(anchor, 1400, 700);
 

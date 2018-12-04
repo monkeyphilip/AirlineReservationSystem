@@ -206,11 +206,11 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		adminTool.setLayoutX(1100);
 		adminTool.setLayoutY(290);
 		adminTool.setOnAction(e ->{
-			RegisterFlights flight =new RegisterFlights();
+			RegisterFlights flightRegister =new RegisterFlights();
 			try {
-				flight.start(primaryStage);
+				flightRegister.start(primaryStage);
 				
-			} catch (Exception e1) {
+			} catch (Exception ex) {
 				
 			}
 		});
@@ -219,11 +219,11 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		adminTool1.setLayoutX(1100);
 		adminTool1.setLayoutY(330);
 		adminTool1.setOnAction(e -> {
-			UpdateFlights update = new UpdateFlights();
+			UpdateFlights updateFlights = new UpdateFlights();
 			try {
-				update.start(primaryStage);
+				updateFlights.start(primaryStage);
 				
-			} catch (Exception e1) {
+			} catch (Exception ex) {
 			
 			}
 		});
