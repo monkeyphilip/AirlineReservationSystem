@@ -266,7 +266,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		try {
 			Connection myConn;
 			myConn = DriverManager.getConnection(
-					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+					"jdbc:mysql://localhost:3306/airlinedatabaser", "root",
 					"confident");
 
 			String sqlUserCheck = "SELECT * FROM `Users` where username = '" + Login.getUser() + "'";
