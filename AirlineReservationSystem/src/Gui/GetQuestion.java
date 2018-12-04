@@ -39,6 +39,39 @@ public class GetQuestion extends Application implements EventHandler<ActionEvent
 
 		try {
 			
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+					"confident");
+			
+			Statement myStat = myConn.createStatement();
+			
+			ResultSet myRs;
+			String sqlUserCheck = "SELECT `security_question` FROM `Users` where username = '" + user + "'";
+			myRs = myStat.executeQuery(sqlUserCheck);
+
+			
+			int count = 0;
+
+			while (myRs.next()) {
+
+				count += 1;
+
+				secQuest = myRs.getString("security_question");
+
+				
+				secAns = myRs.getString("security_answer");
+
+				
+				password = myRs.getString("password");
+			}
+			myStat.close();
+			myRs.close();
+			myConn.close();
+		
+			if (count == 1) {
+
+			}
+
 		}
 		catch (Exception ex) {
 			
@@ -61,7 +94,44 @@ public class GetQuestion extends Application implements EventHandler<ActionEvent
 		okay.setOnAction(e -> {
 			try {
 				
+				
+				String userAnswer = answerField.getText().trim();
+				Connection myConn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+						"confident");
+			
+				Statement myStat = myConn.createStatement();
+				
+				ResultSet myRs;
+				String sqlUserCheck = "SELECT * FROM `Users` where username = '" + user + "'";
+				myRs = myStat.executeQuery(sqlUserCheck);
+
+				
+				int count = 0;
+
+				while (myRs.next()) {
+
+					count += 1;
+
+					
+					secAns = myRs.getString("security_answer");
+
+					password = myRs.getString("pass");
+				}
+
+				myRs.close();
+				myStat.close();
+				myConn.close();
+				
+				if (count == 1 && userAnswer.equals(secAns)) {
+					AlertBox.display("Password", "The password for your account is: " + password);
+
+				} else if (count == 1 && secAns != userAnswer) {
+					AlertBox.display("Incorrect Answer", "That answer is incotrrect. Please try again.");
+				}
+
 			}
+
 			catch(Exception ex){
 				
 			}

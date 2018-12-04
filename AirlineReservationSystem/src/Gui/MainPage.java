@@ -50,7 +50,30 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		Button refresh = new Button("Refresh");
 		
 		try {
+			Connection myConn;
+			myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+					"confident");
+
+			String sqlUserCheck = "SELECT * FROM `Users` where username = '" + Login.getUser()
+					+ "' and isAdmin = '1'";
 			
+			Statement myStat = myConn.createStatement();
+			
+			ResultSet myRs;
+			myRs = myStat.executeQuery(sqlUserCheck);
+
+			
+			int count = 0;
+			while (myRs.next()) {
+				count = count + 1;
+
+			}
+
+			if (count > 0) {
+				setAdmin(true);
+			}
+
 		}
 		
 		catch (Exception exe) {

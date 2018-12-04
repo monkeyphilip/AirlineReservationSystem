@@ -262,27 +262,27 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 				Connection myConn;
 				myConn = DriverManager.getConnection("jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident" );
 
-				String sqlFlightBook = "INSERT INTO `flights`.`Flight_User`(`Flight_id`,`User_id`)VALUES("
+				String sqlFlightBook = "INSERT INTO `Flights`.'FlightUser'(`num`,`ssn`)VALUES("
 						+ addFlight.getText().trim() + ", " + getUsernameId() + ")";
 
-				String sqlFlightCheck = "SELECT `Flight_id`, `User_id` FROM `flights`.`Flight_User` where User_id = '"
-						+ getUsernameId() + "' and Flight_id= '" + addFlight.getText().trim() + "'";
+				String sqlFlightCheck = "SELECT `num`, `ssn` FROM `FlightUser` where ssn = '"
+						+ getUsernameId() + "' and num= '" + addFlight.getText().trim() + "'";
 
-				String sqlBookingCheck = "select  `number`,`departure_time`, `arrival_time`, `departure_date`, `arrival_date` from\r\n"
-						+ "flights.flight inner Join flights.Flight_User on Flight_id = flight.id \r\n"
-						+ "inner join flights.users on Flight_User.User_id = users.id where username = '"
+				String sqlBookingCheck = "select  `num`,`departure_time`, `arrival_time`, `departure_date`, `arrival_date` from\r\n"
+						+ "Flights inner Join FlightUser on num = flights.num \r\n"
+						+ "inner join Users on FlightUser.ssn = users.ssn where username = '"
 						+ Login.getUser() + "'";
 
-				String bookingCheckValue = "SELECT `departure_date`, `departure_time` FROM `flights`.`flight` where number ='"
+				String bookingCheckValue = "SELECT `departure_date`, `departure_time` FROM `Flights` where number ='"
 						+ addFlight.getText().trim() + "'";
 
-				// create a statement
+				
 				Statement myStat = myConn.createStatement();
-				// execute a query
+			
 				ResultSet myRs;
 				myRs = myStat.executeQuery(sqlFlightCheck);
 
-				// Creates a variable for future checking
+				
 				int count = 0;
 				while (myRs.next()) {
 					count = count + 1;
@@ -361,24 +361,25 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		column4.setCellValueFactory(new PropertyValueFactory<>("destinationCity"));
 		column4.setMinWidth(128.88);
 
-		TableColumn<Flights, Date> column5 = new TableColumn<Flights, Date>("Departure Date");
-		column5.setCellValueFactory(new PropertyValueFactory<>("departureDate"));
-		column5.setMinWidth(128.88);
 
 		TableColumn<Flights, Time> column6 = new TableColumn<Flights, Time>("Departure Time");
 		column6.setCellValueFactory(new PropertyValueFactory<>("departureTime"));
 		column6.setMinWidth(128.88);
 
-		TableColumn<Flights, Date> column7 = new TableColumn<Flights, Date>("Arrival date");
+		TableColumn<Flights, Date> column7 = new TableColumn<Flights, Date>("Arrival Time");
 		column7.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
 		column7.setMinWidth(128.88);
+		
+		TableColumn<Flights, Date> column5 = new TableColumn<Flights, Date>("Departure Date");
+		column5.setCellValueFactory(new PropertyValueFactory<>("departureDate"));
+		column5.setMinWidth(128.88);
 
-		TableColumn<Flights, Time> column8 = new TableColumn<Flights, Time>("Arrival Time");
-		column8.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
+		TableColumn<Flights, Time> column8 = new TableColumn<Flights, Time>("Arrival Date");
+		column8.setCellValueFactory(new PropertyValueFactory<>("arrivalDate"));
 		column8.setMinWidth(128.88);
 
-		TableColumn<Flights, Integer> column9 = new TableColumn<Flights, Integer>("Seats Available");
-		column9.setCellValueFactory(new PropertyValueFactory<>("seatsAvailable"));
+		TableColumn<Flights, Integer> column9 = new TableColumn<Flights, Integer>("Seats Open");
+		column9.setCellValueFactory(new PropertyValueFactory<>("seatsOpen"));
 		column9.setMinWidth(128.88);
 		
 		table.setTableMenuButtonVisible(false);
@@ -392,7 +393,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 			String dbSearch = getChoice(dropdown).trim();
 			String searchItem = searchTxt.getText().trim();
 			Connection myConn = DriverManager.getConnection("jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident" );
-			String sqlUserCheck = "SELECT * FROM flights.flight WHERE " + dbSearch + " = '" + searchItem + "'";
+			String sqlUserCheck = "SELECT * FROM Flights WHERE " + dbSearch + " = '" + searchItem + "'";
 			
 			PreparedStatement myStat = myConn.prepareStatement(sqlUserCheck);
 			
@@ -405,8 +406,8 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 			while (myRs.next()) {
 
 				data.add(new Flights(myRs.getInt("num"), myRs.getString("airline"), myRs.getString("origin_city"),
-						myRs.getString("destination_city"), myRs.getDate("departure_date"),
-						myRs.getTime("departure_time"), myRs.getDate("arrival_date"), myRs.getTime("arrival_time"),
+						myRs.getString("destination_city"), myRs.getDate("departure_time"),
+						myRs.getTime("arrivial_time"), myRs.getDate("departure_date"), myRs.getTime("arrival_date"),
 						myRs.getInt("seats_open")));
 				table.setItems(data);
 			}

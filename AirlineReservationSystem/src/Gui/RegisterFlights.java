@@ -65,7 +65,7 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 		arrivalTime.setLayoutX(200);
 		arrivalTime.setLayoutY(290);
 
-		Text capacity = new Text("Capacity");
+		Text capacity = new Text("Available Seats");
 		capacity.setLayoutX(200);
 		capacity.setLayoutY(330);
 
@@ -109,10 +109,10 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 		arrivalTimeTxtField.setLayoutY(270);
 		arrivalTimeTxtField.setPromptText("HH:MM:SS");
 
-		TextField capacityTxtField = new TextField();
-		capacityTxtField.setLayoutX(300);
-		capacityTxtField.setLayoutY(310);
-		capacityTxtField.setPromptText("Capacity");
+		TextField seatsOpenTxtField = new TextField();
+		seatsOpenTxtField.setLayoutX(300);
+		seatsOpenTxtField.setLayoutY(310);
+		seatsOpenTxtField.setPromptText("Capacity");
 
 		Button returnHome = new Button("Return to main Page");
 		returnHome.setLayoutX(250);
@@ -131,6 +131,38 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 		create.setLayoutY(400);
 		create.setOnAction(e -> {
 			try {
+				Connection myConn;
+				myConn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+						"confident");
+				String sqlFightCheck = "select * From `Flights` where number = '"
+						+ flightNumberTxtField.getText() + "'";
+
+				String sqlFlightCreate = "INSERT INTO `Flights`(`number`,`airline`,`origin_city`,`destination_city`,`departure_date`,`departure_time`"
+						+ "`arrival_time`,`departure_date`,`arrival_date`,`seats_open`) VALUES('"
+						+ flightNumberTxtField.getText() + "', '"+ airlineTxtField.getText() + "', '" 
+						+ originCityTxtField.getText() + "', '" + destinationCityTxtField.getText() + "' , '"
+						+ departureDateTxtField.getText() + "', '" + departureTimeTxtField.getText() + "', '"
+						+ arrivalTimeTxtField.getText() + "', '" + departureDateTxtField.getText() + "','" 
+						+ arrivalDateTxtField.getText() + "', '" + seatsOpenTxtField.getText() + "')";
+
+				Statement myStat = myConn.createStatement();
+				// execute a query
+				;
+				ResultSet myRs;
+				myRs = myStat.executeQuery(sqlFightCheck);
+				int count = 0;
+				while (myRs.next()) {
+					count += 1;
+				}
+				if (count == 0) {
+					myStat.executeUpdate(sqlFlightCreate);
+					AlertBox.display("Success", "FLight Successfully Added!");
+
+				} else {
+					AlertBox.display("Error",
+							"Flight number " + flightNumberTxtField.getText() + " already exists.");
+				}
 				
 			}
 			catch(Exception ex) {
@@ -143,7 +175,7 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 		anchor.getChildren().addAll(airline, flightNumber, originCity, destinationCity, departureDate, departureTime,
 				arrivalDate, arrivalTime, capacity, airlineTxtField, flightNumberTxtField, originCityTxtField,
 				destinationCityTxtField, departureDateTxtField, departureTimeTxtField, arrivalDateTxtField,
-				arrivalTimeTxtField, capacityTxtField, create, returnHome);
+				arrivalTimeTxtField, seatsOpenTxtField, create, returnHome);
 
 		Scene scene = new Scene(anchor, 650, 550);
 		primaryStage.setScene(scene);

@@ -178,7 +178,7 @@ public class Register extends Application implements EventHandler<ActionEvent>{
 			if (tPassword.getText().equals((tConfirm.getText())) == false) {
 				AlertBox.display("Error", "Password and Confirm password do not match.");
 			} else {
-				String sql = "INSERT INTO `flights`.`users`"
+				String sql = "INSERT INTO `Users`"
 						+ "(`firstName`,`lastName`,`address`,`zipcode`,`state`,`username`,`pass`,`email`,"
 						+ "`ssn`,`security_question`,`security_answer`,`isAdmin`)VALUES " + "('" + tfName.getText()
 						+ "', '" + tlName.getText() + "', '" + tAddress.getText() + "', '" + tZip.getText() + "', '"
@@ -187,7 +187,7 @@ public class Register extends Application implements EventHandler<ActionEvent>{
 						+ tSecutiryA.getText() + "', '0')";
 				
 				try {
-					Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/airlinedatabase?user=root?password=confident");
+					Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/airlinedatabase", "root", "confident");
 					
 					Statement myStat = myConn.createStatement();
 					myStat.executeUpdate(sql);

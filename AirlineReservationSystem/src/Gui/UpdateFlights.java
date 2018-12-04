@@ -80,13 +80,43 @@ public class UpdateFlights extends Application implements EventHandler<ActionEve
 		submit.setLayoutX(765);
 		submit.setLayoutY(60);
 		submit.setOnAction(e -> {
+			if (getOption(dropdown2).trim().equals("UPDATE")) {
 			try {
 				
-			}
-			catch (Exception ex) {
+				Connection myConn;
+				myConn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/airlinedatabase", "root", "confident");
+
+				String update = getOption(dropdown2).trim() + " `Flights` SET `"
+						+ getChoice(dropdown).trim() + "` = '" + info.getText().trim() + "' WHERE `num` = '"
+						+ flightNumberField.getText().trim() + "' ";
+				Statement myStat = myConn.createStatement();
+				myStat.executeUpdate(update);
 				
 			}
+			catch (Exception ex) {}
+			}
+			
+			if (getOption(dropdown2).trim().equals("DELETE")) {
+				try {
+
+					Connection myConn;
+					myConn = DriverManager.getConnection(
+							"jdbc:mysql://localhost:3306/airlinedatabase", "root", "confident");
+
+					String delete = "DELETE FROM `Flights` WHERE `num`='"
+							+ flightNumberField.getText().trim() + "'";
+					Statement myStat = myConn.createStatement();
+					myStat.executeUpdate(delete);
+				}
+
+				catch (SQLException ex) {
+				}
+
+			}
 		});
+			
+		
 		
 		TableColumn<Flights, Integer> column1 = new TableColumn<Flights, Integer>("Flight Number");
 		column1.setCellValueFactory(new PropertyValueFactory<>("flightNumber"));
