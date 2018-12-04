@@ -102,7 +102,7 @@ public class Login extends Application implements EventHandler<ActionEvent>{
 				
 				
 				Connection myConn = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/airlinedatabaser", "root",
+						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
 						"confident");
 			
 				Statement myStat = myConn.createStatement();

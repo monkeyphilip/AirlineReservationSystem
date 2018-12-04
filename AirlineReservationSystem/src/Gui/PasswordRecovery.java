@@ -50,7 +50,7 @@ public class PasswordRecovery extends Application implements EventHandler<Action
 			try {
 				
 				Connection myConn = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/airlinedatabaser", "root",
+						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
 						"confident");
 				// create a statement
 				Statement myStat = myConn.createStatement();

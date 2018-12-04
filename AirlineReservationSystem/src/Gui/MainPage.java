@@ -25,6 +25,15 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 	
 	private boolean isAdmin = false;
 	
+	public String getUsernameId() {
+		return usernameID;
+	}
+
+	public void setUsernameId(String usernameId) {
+		this.usernameID = usernameId;
+	}
+
+	
 
 // Main Method	
 	public static void main(String[] args) {
@@ -154,12 +163,48 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		deleteFlights.setText("Delete Flight");
 		deleteFlights.setOnAction(e -> {
 			try {
-				
+
+				Connection myConn;
+				myConn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+						"confident");
+
+				String sqlFlightDelete = "Delete FROM FlightUser where FlightUser.Flights_num = '"
+						+ deleteFlightTxt.getText().trim() + "' and FlightUser.Users_ssn= '" + getUsernameID() + "'";
+				String sqlFlightCheck = "SELECT `Flights_num`, `Users_ssn` FROM `FlightUser` where Users_ssn = '"
+						+ getUsernameID() + "' and Flights_num= '" + deleteFlightTxt.getText().trim() + "'";
+				// create a statement
+				Statement myStat = myConn.createStatement();
+				// execute a query
+				ResultSet myRs;
+				myRs = myStat.executeQuery(sqlFlightCheck);
+
+				// Creates a variable for future checking
+				int count = 0;
+				while (myRs.next()) {
+					count = count + 1;
+					setUsernameId(myRs.getString("User_id"));
+				}
+
+				if (count > 0) {
+					myStat.executeUpdate(sqlFlightDelete);
+
+				}
+
+				else {
+					AlertBox.display("Error!",
+							"Error! you have not  booked flight number: " + deleteFlightTxt.getText().trim()
+									+ " yet. \n You cannot delete a flight you havent booked!");
+				}
+				myStat.close();
+				myRs.close();
+				myConn.close();
 			}
-			catch(Exception ex) {
-				
+
+			catch (SQLException ex) {
+			
 			}
-		
+
 		});
 		TableColumn<Flights, Integer> column1 = new TableColumn<Flights, Integer>("Flight Number");
 		column1.setCellValueFactory(new PropertyValueFactory<>("flightNumber"));
