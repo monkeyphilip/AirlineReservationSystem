@@ -62,7 +62,7 @@ public class Flights implements ObservableList {
 		
 	}
 	
-	public Flights(String airline, String originCity, String destinationCity, int flightNumber, int seatsOpen, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime) {
+	public Flights( int flightNumber,String airline, String originCity, String destinationCity, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime,int seatsOpen, Timestamp time) {
 		
 		super();
 		this.airline = airline;
@@ -77,7 +77,7 @@ public class Flights implements ObservableList {
 		
 	}
 	
-	public Flights(String airline, String originCity, String destinationCity, int flightNumber, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime) {
+	public Flights( int flightNumber,String airline, String originCity, String destinationCity, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime,int openSeats){
 		
 		super();
 		this.airline = airline;

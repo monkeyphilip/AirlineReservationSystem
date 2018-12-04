@@ -259,6 +259,85 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		addFlightButton.setLayoutY(335);
 		addFlightButton.setOnAction(e -> {
 			try {
+				Connection myConn;
+				myConn = DriverManager.getConnection("jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident" );
+
+				String sqlFlightBook = "INSERT INTO `flights`.`Flight_User`(`Flight_id`,`User_id`)VALUES("
+						+ addFlight.getText().trim() + ", " + getUsernameId() + ")";
+
+				String sqlFlightCheck = "SELECT `Flight_id`, `User_id` FROM `flights`.`Flight_User` where User_id = '"
+						+ getUsernameId() + "' and Flight_id= '" + addFlight.getText().trim() + "'";
+
+				String sqlBookingCheck = "select  `number`,`departure_time`, `arrival_time`, `departure_date`, `arrival_date` from\r\n"
+						+ "flights.flight inner Join flights.Flight_User on Flight_id = flight.id \r\n"
+						+ "inner join flights.users on Flight_User.User_id = users.id where username = '"
+						+ Login.getUser() + "'";
+
+				String bookingCheckValue = "SELECT `departure_date`, `departure_time` FROM `flights`.`flight` where number ='"
+						+ addFlight.getText().trim() + "'";
+
+				// create a statement
+				Statement myStat = myConn.createStatement();
+				// execute a query
+				ResultSet myRs;
+				myRs = myStat.executeQuery(sqlFlightCheck);
+
+				// Creates a variable for future checking
+				int count = 0;
+				while (myRs.next()) {
+					count = count + 1;
+
+				}
+
+				myRs = myStat.executeQuery(bookingCheckValue);
+				while (myRs.next()) {
+					setNewDepDate(myRs.getDate("departure_date"));
+					setNewDepTime(myRs.getTime("departure_time"));
+					setNewFlightDep(java.sql.Timestamp
+							.valueOf(getNewDepDate().toString().concat(" " + getNewDepTime().toString())));
+					
+				}
+
+				if (count == 0) {
+
+					myRs = myStat.executeQuery(sqlBookingCheck);
+					while (myRs.next()) {
+
+						setDepDate(myRs.getDate("departure_date"));
+						setArrDate(myRs.getDate("arrival_date"));
+						setDepTime(myRs.getTime("departure_time"));
+						setArrTime(myRs.getTime("arrival_time"));
+						java.sql.Timestamp departure = java.sql.Timestamp
+								.valueOf(getDepDate().toString().concat(" " + getDepTime().toString()));
+						java.sql.Timestamp arrival = java.sql.Timestamp
+								.valueOf(getArrDate().toString().concat(" " + getArrTime().toString()));
+
+						setConflictCount(conflictCheck(departure, arrival, getNewFlightDep()));
+						if (getConflictCount() == 1) {
+							setCountHolder(1);
+						}
+
+						System.out.println(getConflictCount());
+
+					}
+					if (getCountHolder() == 0) {
+
+						myStat.executeUpdate(sqlFlightBook);
+					}
+
+					else {
+						AlertBox.display("Error", "This flight conflicts with other flights in your account");
+					}
+
+				}
+
+				else {
+					AlertBox.display("Error!", "Error! you have alredy booked flight number: "
+							+ addFlight.getText().trim() + ". \n You cannot Book the same flight tiwce!");
+				}
+				myStat.close();
+				myRs.close();
+				myConn.close();
 				
 			}
 			catch(Exception ex) {
@@ -310,8 +389,32 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 		searchButton.setMinWidth(60);
 		searchButton.setOnAction(e -> {
 			try {
-				
+			String dbSearch = getChoice(dropdown).trim();
+			String searchItem = searchTxt.getText().trim();
+			Connection myConn = DriverManager.getConnection("jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident" );
+			String sqlUserCheck = "SELECT * FROM flights.flight WHERE " + dbSearch + " = '" + searchItem + "'";
+			
+			PreparedStatement myStat = myConn.prepareStatement(sqlUserCheck);
+			
+			ResultSet myRs;
+			myRs = myStat.executeQuery();
+			table.getItems().clear();
+
+			
+
+			while (myRs.next()) {
+
+				data.add(new Flights(myRs.getInt("num"), myRs.getString("airline"), myRs.getString("origin_city"),
+						myRs.getString("destination_city"), myRs.getDate("departure_date"),
+						myRs.getTime("departure_time"), myRs.getDate("arrival_date"), myRs.getTime("arrival_time"),
+						myRs.getInt("seats_open")));
+				table.setItems(data);
 			}
+			myStat.close();
+			myRs.close();
+			myConn.close();
+			}
+
 			catch(Exception ex) {
 				
 			}
