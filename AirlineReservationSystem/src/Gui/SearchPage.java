@@ -375,12 +375,14 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 				Connection myConn;
 				myConn = DriverManager.getConnection("jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident" );
 
-				String sqlFlightBook = "INSERT INTO `username` FROM `Users`,'num'FROM 'Flights VALUES("
+				String sqlFlightBook = "INSERT INTO `username` FROM `Users`,'num'FROM 'Flights' VALUES("
 						+ addFlight.getText().trim() + ", " + getUsernameId() + ")";
+			
+				
+				String sqlUserCheck = "SELECT `username` FROM `Users` where username = '" + addFlight.getText().trim() + "'";
 
-				String sqlFlightCheck = "SELECT `num` FROM 'Flights, `username` FROM `Users` where `username` FROM `Users` = '"
-						+ getUsernameId() + "`num` FROM 'Flight= '" + addFlight.getText().trim() + "'";
-
+				String sqlFlightCheck = "INSERT INTO `username` FROM `Users`,'num'FROM 'Flights VALUES("
+						+ addFlight.getText().trim() + ", " + getUsernameId() + ")";
 				String sqlBookingCheck = "select  `num`,`departure_time`, `arrival_time`, `departure_date`, `arrival_date` from\r\n"
 						+ "Flights inner Join `num` FROM 'Flights' = `num` FROM 'Flights' \r\n"
 						+ "inner join Users on `username` FROM `Users` = `username` FROM `Users` where username = '"
@@ -393,7 +395,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 				Statement myStat = myConn.createStatement();
 			
 				ResultSet myRs;
-				myRs = myStat.executeQuery(sqlFlightCheck);
+				myRs = myStat.executeQuery(sqlUserCheck);
 
 				
 				int count = 0;
@@ -402,7 +404,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 
 				}
 
-				myRs = myStat.executeQuery(bookingCheckValue);
+				myRs = myStat.executeQuery(sqlUserCheck);
 				while (myRs.next()) {
 					setNewDepDate(myRs.getDate("departure_date"));
 					setNewDepTime(myRs.getTime("departure_time"));
@@ -413,7 +415,7 @@ public class SearchPage extends Application implements EventHandler<ActionEvent>
 
 				if (count == 0) {
 
-					myRs = myStat.executeQuery(sqlBookingCheck);
+					myRs = myStat.executeQuery(sqlUserCheck);
 					while (myRs.next()) {
 
 						setDepDate(myRs.getDate("departure_date"));
