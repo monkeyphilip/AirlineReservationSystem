@@ -87,7 +87,7 @@ public class UpdateFlights extends Application implements EventHandler<ActionEve
 				myConn = DriverManager.getConnection(
 						"jdbc:mysql://localhost:3306/airlinedatabase", "root", "confident");
 
-				String update = getOption(dropdown2).trim() + " `Flights` SET `"
+				String update = getOption(dropdown2).trim() + " `airlinedatabase`.`Flights` SET `"
 						+ getChoice(dropdown).trim() + "` = '" + info.getText().trim() + "' WHERE `num` = '"
 						+ flightNumberField.getText().trim() + "' ";
 				Statement myStat = myConn.createStatement();
@@ -107,7 +107,7 @@ public class UpdateFlights extends Application implements EventHandler<ActionEve
 					myConn = DriverManager.getConnection(
 							"jdbc:mysql://localhost:3306/airlinedatabase", "root", "confident");
 
-					String delete = "DELETE FROM `Flights` WHERE `num`='"
+					String delete = "DELETE FROM `airlinedatabase`.`Flights` WHERE `num`='"
 							+ flightNumberField.getText().trim() + "'";
 					Statement myStat = myConn.createStatement();
 					myStat.executeUpdate(delete);
@@ -159,7 +159,7 @@ public class UpdateFlights extends Application implements EventHandler<ActionEve
 			Connection myConn = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
 					"confident");
-			String sqlUserCheck = "SELECT * FROM Flights";
+			String sqlUserCheck = "SELECT * FROM airlinedatabase.Flights";
 			
 			PreparedStatement myStat = myConn.prepareStatement(sqlUserCheck);
 		
@@ -210,7 +210,7 @@ public class UpdateFlights extends Application implements EventHandler<ActionEve
 		if (choice.equals("Destnation")) {
 			dbSearch = "destination_city";
 		} else if (choice.equals("Flight Number")) {
-			dbSearch = "number";
+			dbSearch = "num";
 		}
 
 		else if (choice.equals("Origin")) {

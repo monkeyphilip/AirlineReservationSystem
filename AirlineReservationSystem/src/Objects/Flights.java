@@ -77,7 +77,7 @@ public class Flights implements ObservableList {
 		
 	}
 	
-	public Flights( int flightNumber,String airline, String originCity, String destinationCity, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime,int openSeats){
+	public Flights( int flightNumber,String airline, String originCity, String destinationCity, Date departureDate, Time departureTime, Date arrivalDate, Time arrivalTime,int seatsOpen){
 		
 		super();
 		this.airline = airline;

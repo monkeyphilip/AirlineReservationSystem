@@ -30,17 +30,16 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 	public void start(Stage primaryStage) throws Exception {
 		
 		primaryStage.setTitle("Add Flight");
-		primaryStage.setResizable(false);
 		AnchorPane anchor = new AnchorPane();
 		anchor.setPadding(new Insets(20, 20, 20, 20));
 
 		Text airline = new Text("Airline");
 		airline.setLayoutX(200);
-		airline.setLayoutY(80);
+		airline.setLayoutY(45);
 
 		Text flightNumber = new Text("Flight Number");
 		flightNumber.setLayoutX(200);
-		flightNumber.setLayoutY(45);
+		flightNumber.setLayoutY(80);
 
 		Text originCity = new Text("Origin City");
 		originCity.setLayoutX(200);
@@ -52,32 +51,32 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 
 		Text departureDate = new Text("Departure Date");
 		departureDate.setLayoutX(200);
-		departureDate.setLayoutY(255);
+		departureDate.setLayoutY(185);
 
 		Text departureTime = new Text("Departure Time");
 		departureTime.setLayoutX(200);
-		departureTime.setLayoutY(185);
+		departureTime.setLayoutY(220);
 
 		Text arrivalDate = new Text("Arrival Date");
 		arrivalDate.setLayoutX(200);
-		arrivalDate.setLayoutY(290);
+		arrivalDate.setLayoutY(255);
 
 		Text arrivalTime = new Text("Arrival Time");
 		arrivalTime.setLayoutX(200);
-		arrivalTime.setLayoutY(220);
+		arrivalTime.setLayoutY(290);
 
-		Text capacity = new Text("Available Seats");
+		Text capacity = new Text("Capacity");
 		capacity.setLayoutX(200);
 		capacity.setLayoutY(330);
 
 		TextField airlineTxtField = new TextField();
 		airlineTxtField.setLayoutX(300);
-		airlineTxtField.setLayoutY(60);
+		airlineTxtField.setLayoutY(25);
 		airlineTxtField.setPromptText("Airline");
 
 		TextField flightNumberTxtField = new TextField();
 		flightNumberTxtField.setLayoutX(300);
-		flightNumberTxtField.setLayoutY(25);
+		flightNumberTxtField.setLayoutY(60);
 		flightNumberTxtField.setPromptText("Flight Number");
 
 		TextField originCityTxtField = new TextField();
@@ -92,22 +91,22 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 
 		TextField departureDateTxtField = new TextField();
 		departureDateTxtField.setLayoutX(300);
-		departureDateTxtField.setLayoutY(235);
+		departureDateTxtField.setLayoutY(165);
 		departureDateTxtField.setPromptText("YYYY-MM-DD");
 
 		TextField departureTimeTxtField = new TextField();
 		departureTimeTxtField.setLayoutX(300);
-		departureTimeTxtField.setLayoutY(165);
+		departureTimeTxtField.setLayoutY(200);
 		departureTimeTxtField.setPromptText("HH:MM:SS");
 
 		TextField arrivalDateTxtField = new TextField();
 		arrivalDateTxtField.setLayoutX(300);
-		arrivalDateTxtField.setLayoutY(270);
+		arrivalDateTxtField.setLayoutY(235);
 		arrivalDateTxtField.setPromptText("YYYY-MM-DD");
 
 		TextField arrivalTimeTxtField = new TextField();
 		arrivalTimeTxtField.setLayoutX(300);
-		arrivalTimeTxtField.setLayoutY(200);
+		arrivalTimeTxtField.setLayoutY(270);
 		arrivalTimeTxtField.setPromptText("HH:MM:SS");
 
 		TextField capacityTxtField = new TextField();
@@ -122,71 +121,86 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 			MainPage mainPage = new MainPage();
 			try {
 				mainPage.start(primaryStage);
-			} catch (Exception ex) {
-				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		});
-		
+
 		Button create = new Button("Create Flight");
 		create.setLayoutX(250);
 		create.setLayoutY(400);
 		create.setOnAction(e -> {
-			try {
-				Connection myConn;
-				myConn = DriverManager.getConnection(
-						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
-						"confident");
-				String sqlFightCheck = "select num From Flights where num = '"
-						+ flightNumberTxtField.getText() + "'";
+			java.sql.Timestamp departure = java.sql.Timestamp
+					.valueOf(departureDateTxtField.getText().concat(" " + departureTimeTxtField.getText()));
+			java.sql.Timestamp arrival = java.sql.Timestamp
+					.valueOf(arrivalDateTxtField.getText().concat(" " + arrivalTimeTxtField.getText()));
 
-				String sqlFlightCreate = "INSERT INTO `Flights`(`num`,`airline`,`origin_city`,`destination_city`,`departure_time`,`arrival_time`"
-						+ ",`departure_date`,`arrival_date`,`seats_open`) VALUES('"
-						+ flightNumberTxtField.getText() + "', '"+ airlineTxtField.getText() + "', '" 
-						+ originCityTxtField.getText() + "', '" + destinationCityTxtField.getText() + "' , '"
-						+ departureDateTxtField.getText() + "', '" + departureTimeTxtField.getText() + "', '"
-						+ arrivalTimeTxtField.getText() + "', '" + departureDateTxtField.getText() + "','" 
-						+ arrivalDateTxtField.getText() + "', '" + capacityTxtField.getText() + "')";
+			if (schedulingCheck(departure, arrival) == 0) {
 
-				Statement myStat = myConn.createStatement();
-				
-				;
-				ResultSet myRs;
-				myRs = myStat.executeQuery(sqlFightCheck);
-				int count = 0;
-				while (myRs.next()) {
-					count += 1;
+				try {
+
+					Connection myConn;
+					myConn = DriverManager.getConnection(
+							"jdbc:Mysql://localhost:3306/airlinedatabase", "root", "confident");
+					String sqlFightCheck = "select * From `airlinedatabase`.`Flights` where num = '"
+							+ flightNumberTxtField.getText() + "'";
+
+					String sqlFlightCreate = "INSERT INTO `airlinedatabase`.`Flights`(`airline`,`num`,`origin_city`,`destination_city`,`departure_date`,"
+							+ "`departure_time`,`arrival_date`,`arrival_time`,`seats_open`) VALUES('"
+							+ airlineTxtField.getText() + "', '" + flightNumberTxtField.getText() + "', '"
+							+ originCityTxtField.getText() + "', '" + destinationCityTxtField.getText() + "' , '"
+							+ departureDateTxtField.getText() + "', '" + departureTimeTxtField.getText() + "', '"
+							+ arrivalDateTxtField.getText() + "', '" + arrivalTimeTxtField.getText() + "', '"
+							+ capacityTxtField.getText() + "')";
+
+					Statement myStat = myConn.createStatement();
+					// execute a query
+					;
+					ResultSet myRs;
+					myRs = myStat.executeQuery(sqlFightCheck);
+					int count = 0;
+					while (myRs.next()) {
+						count += 1;
+					}
+					if (count == 0) {
+						myStat.executeUpdate(sqlFlightCreate);
+						AlertBox.display("Success", "Flight Successfully Added!");
+
+					} else {
+						AlertBox.display("Error",
+								"Flight number " + flightNumberTxtField.getText() + " already exists.");
+					}
+
+				} catch (SQLException exc) {
+					System.out.println(exc.getMessage());
 				}
-				if (count == 0) {
-					myStat.executeUpdate(sqlFlightCreate);
-					AlertBox.display("Success", "FLight Successfully Added!");
-
-				} else {
-					AlertBox.display("Error",
-							"Flight number " + flightNumberTxtField.getText() + " already exists.");
-				}
-				
 			}
-			catch(Exception ex) {
-				System.out.print(ex);
-				
-				AlertBox.display("Error", "Departure cannot be before a arrival");
-				
+
+			else {
+				AlertBox.display("Error", "Error: departure cannot be before a arrival");
 			}
 		});
-		
+
 		anchor.getChildren().addAll(airline, flightNumber, originCity, destinationCity, departureDate, departureTime,
 				arrivalDate, arrivalTime, capacity, airlineTxtField, flightNumberTxtField, originCityTxtField,
 				destinationCityTxtField, departureDateTxtField, departureTimeTxtField, arrivalDateTxtField,
 				arrivalTimeTxtField, capacityTxtField, create, returnHome);
 
-		Scene scene = new Scene(anchor, 650, 550);
+		Scene scene = new Scene(anchor, 550, 550);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		primaryStage.setResizable(false);
 		primaryStage.setMaximized(false);
 		primaryStage.centerOnScreen();
 	}
-	
+
+	@Override
+	public void handle(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
 	public int schedulingCheck(Timestamp d, Timestamp a) {
 
 		if (d.compareTo(a) >= 0) {
@@ -196,13 +210,5 @@ public class RegisterFlights extends Application implements EventHandler<ActionE
 		}
 
 	}
-	
-	@Override
-	public void handle(ActionEvent arg0) {
-		// TODO Auto-generated method stub
 
-	}
-		
-	
- 
 }

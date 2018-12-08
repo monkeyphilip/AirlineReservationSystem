@@ -68,7 +68,7 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
 					"confident");
 
-			String sqlUserCheck = "SELECT * FROM `Users` where username = '" + Login.getUser()
+			String sqlUserCheck = "SELECT * FROM `airlinedatabase`.`Users` where username = '" + Login.getUser()
 					+ "' and isAdmin = '1'";
 			
 			Statement myStat = myConn.createStatement();
@@ -131,12 +131,39 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		refresh.setMnemonicParsing(false);
 		refresh.setOnAction(e -> { 
 			try {
-				
+				Connection myConn = DriverManager.getConnection(
+						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+						"confident");
+			String sqlUserCheck = "select  `num`, `airline`, `origin_city`, `destination_city`, `departure_time`, `arrival_time`, `departure_date`, `arrival_date` from\r\n"
+					+ "airlinedatabase.Flights inner Join airlinedatabase.FlightUser\r\n" + "on flight_id = Flights.num\r\n"
+					+ "inner join airlinedatabase.Users on FlightUser.user_id = Users.ssn where username = '"
+					+ Login.getUser() + "'";
+			
+			PreparedStatement myStat = myConn.prepareStatement(sqlUserCheck);
+			
+			ResultSet myRs;
+			myRs = myStat.executeQuery();
+			table.getItems().clear();
+
+			
+
+			while (myRs.next()) {
+
+				data.add(new Flights(myRs.getInt("num"), myRs.getString("airline"), myRs.getString("origin_city"),
+						myRs.getString("destination_city"), myRs.getDate("departure_date"),
+						myRs.getTime("departure_time"), myRs.getDate("arrival_date"),
+						myRs.getTime("arrival_time")));
+				table.setItems(data);
 			}
-			catch (Exception ex) {
-				
-			}
-		});
+			myStat.close();
+			myRs.close();
+			
+		} catch (Exception ex) {
+			System.out.print(ex);
+
+		}
+
+	});
 		
 		logOut.setLayoutX(1100.0);
 		logOut.setLayoutY(249.0);
@@ -151,6 +178,32 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 				
 			}
 		});
+		
+		try {
+			Connection myConn;
+			myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+					"confident");
+
+			String sqlUserCheck = "SELECT * FROM `airlinedatabase`.`Users` where username = '" + Login.getUser() + "'";
+			
+			Statement myStat = myConn.createStatement();
+			
+			ResultSet myRs;
+			myRs = myStat.executeQuery(sqlUserCheck);
+
+			
+			int count = 0;
+			while (myRs.next()) {
+				count = count + 1;
+				setUsernameId(myRs.getString("ssn"));
+
+			}
+
+		} catch (Exception ex) {
+			System.out.print(ex);
+
+		}
 		
 		Label deleteFlightLbl = new Label("Enter Flight Number to Delete:");
 		deleteFlightLbl.setLayoutX(1065);
@@ -173,10 +226,10 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 						"jdbc:mysql://localhost:3306/airlinedatabase", "root",
 						"confident");
 
-				String sqlFlightDelete = "Delete FROM Flights where num= '"
-						+ deleteFlightTxt.getText().trim() + "' and From Users get ssn= '" + getUsernameID() + "'";
-				String sqlFlightCheck = "SELECT `num`, `ssn` FROM `Users` where ssn = '"
-						+ getUsernameID() + "' and FROM 'Flights' where num= '" + deleteFlightTxt.getText().trim() + "'";
+				String sqlFlightDelete = "Delete FROM airlinedatabase.FlightUser where flight_id= '"
+						+ deleteFlightTxt.getText().trim() + "' and From FlightUser.user_id= '" + getUsernameID() + "'";
+				String sqlFlightCheck = "SELECT `flight_id`, `user_id` FROM `FlightUser` where user_id = '"
+						+ getUsernameID() + "' and flight_id= '" + deleteFlightTxt.getText().trim() + "'";
 			
 				Statement myStat = myConn.createStatement();
 				
@@ -186,7 +239,7 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 				int count = 0;
 				while (myRs.next()) {
 					count = count + 1;
-					setUsernameId(myRs.getString("FROM Users get ssn"));
+					setUsernameId(myRs.getString("user_id"));
 				}
 
 				if (count > 0) {
@@ -241,15 +294,40 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 		TableColumn<Flights, Time> column8 = new TableColumn<Flights, Time>("Arrival Time");
 		column8.setCellValueFactory(new PropertyValueFactory<>("arrivalTime"));
 		column8.setMinWidth(128.88);
+		
+		
 
 		table.getColumns().addAll(column1, column2, column3, column4, column5, column6, column7, column8);
-
 		try {
+			Connection myConn = DriverManager.getConnection(
+					"jdbc:mysql://localhost:3306/airlinedatabase", "root",
+					"confident");
+			String sqlUserCheck = "select  `num`, `airline`, `origin_city`, `destination_city`, `departure_time`, `arrival_time`, `departure_date`, `arrival_date` from\r\n"
+					+ "airlinedatabase.Flights inner Join airlinedatabase.FlightUser\r\n" + "on flight_id = Flight.num\r\n"
+					+ "inner join airlinedatabase.Users on FlightUser.user_id = Users.ssn where username = '" + Login.getUser()
+					+ "'";
+		
+			PreparedStatement myStat = myConn.prepareStatement(sqlUserCheck);
 			
-		}
-		catch(Exception ex) {
+			ResultSet myRs;
+			myRs = myStat.executeQuery();
+			table.getItems().clear();
+
 			
+
+			while (myRs.next()) {
+
+				data.add(new Flights(myRs.getInt("num"), myRs.getString("airline"), myRs.getString("origin_city"),
+						myRs.getString("destination_city"), myRs.getDate("departure_date"),
+						myRs.getTime("departure_time"), myRs.getDate("arrival_date"), myRs.getTime("arrival_time")));
+				table.setItems(data);
+			}
+			myStat.close();
+			myRs.close();
+		} catch (Exception ex) {
+
 		}
+
 		
 		Button adminTool = new Button("Admin Add flight");
 		adminTool.setLayoutX(1100);
@@ -258,7 +336,7 @@ public class MainPage extends Application implements EventHandler<ActionEvent> {
 			
 			try {
 				flightRegister.start(primaryStage);
-				//flightRegister.launch(null);
+				
 				
 			} catch (Exception ex) {
 				
